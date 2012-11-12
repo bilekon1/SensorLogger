@@ -1,0 +1,36 @@
+<resources>
+<!-- GUI prvky -->
+    <string name="app_name">SensorLogger</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">SensorLogger</string>
+    <string name="play">Spustit</string>
+    <string name="pause">Pozastavit</string>
+    <string name="stop">Zastavit</string>
+    
+    <string name="name">Jméno: </string>
+    <string name="vendor">Výrobce: </string>
+    <string name="power">Příkon: </string>
+    <string name="maxrange">Dosah: </string>
+    <string name="resolution">Rozlišení: </string>
+    <string name="mindelay">Zpoždění: </string>    
+    
+    
+    <string name="about">O aplikaci</string>
+    <string name="help">Nápověda</string>
+ 
+<!-- Jména senzorů -->
+    <string name="accel">Akcelerometr</string>
+    <string name="grav">Gravitační senzor</string>
+    <string name="gyro">Gyroskop</string>
+    <string name="light">Světelný senzor</string>
+    <string name="line">Lineární zrychlení</string>
+    <string name="magn">Magnetické pole</string>
+    <string name="press">Tlakový senzor</string>
+    <string name="prox">Proximity senzor</string>
+    <string name="rvec">Rotační vektor</string>
+    <string name="temp">Teplota</string>
+    
+<!-- Popisy u senzorů -->    
+    <string name="nAccel">Udává zrychlení ve třech osách</string>
+    
+</resources>
