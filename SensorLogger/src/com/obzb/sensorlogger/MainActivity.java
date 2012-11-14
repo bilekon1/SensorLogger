@@ -7,18 +7,25 @@ import com.obzb.sensorlogger.classes.ISensor;
 import com.obzb.sensorlogger.classes.SGraph;
 import com.obzb.sensorlogger.classes.SLogger;
 import com.obzb.sensorlogger.classes.Sensors;
-
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.util.SparseIntArray;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,7 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MainActivity extends Activity{
+public class MainActivity extends FragmentActivity {
 	public static Context CONTEXT;
 	//GUI prvky
 	TextView txtInfo;
@@ -59,13 +66,15 @@ public class MainActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.activity_main);
-        lGraph = (LinearLayout) findViewById(R.id.lGraph);
+        
         CONTEXT = this;
         SMANAGER = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensors = new Sensors();
         vytvorSlistener();
         //GUI inicializace
+        lGraph = (LinearLayout) findViewById(R.id.lGraph);
         txtInfo = (TextView) findViewById(R.id.txtInfo);
         txtData = (TextView) findViewById(R.id.txtData);
         spSensors = (Spinner)findViewById(R.id.spSensors);
@@ -159,17 +168,6 @@ public class MainActivity extends Activity{
 					x = event.values[0];
 					y = event.values[1];
 					z = event.values[2];
-					/*mTimer = new Runnable() {    //dìsnì zasekává aplikaci
-						@Override
-						public void run() {
-							if ( (i % 400) == 0) graph.reset();
-							graph.pridejHodnotu(i, x, y, z);
-							mHandler.postDelayed(this, 2000);
-							lGraph.invalidate();
-						}
-					};
-					mHandler.postDelayed(mTimer, 2000);
-					i++;*/
 					graph.pridejHodnotu(i, x, y, z);
 					
 					lGraph.invalidate();
@@ -235,6 +233,26 @@ public class MainActivity extends Activity{
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.about:
+            	
+                return true;
+            case R.id.help:
+               
+                return true;
+            case R.id.orientation:
+                DialogFragment orientation = new OrientationFragment();
+                orientation.show(getSupportFragmentManager(), "orientation");
+               	return true;
+        }
+        return false;
+    }
+    
+    
     
     @Override
     protected void onResume() {

@@ -30,7 +30,7 @@ public class SGraph {
     	this.sParams = sParams;
     	GraphView graphView = new LineGraphView(  
     	      c // context  
-    	      , "Sensor Log" // heading  
+    	      , "" // heading  
     	);  
     	switch (sParams){
     	case 1: 
@@ -57,6 +57,7 @@ public class SGraph {
     	graphView.setScalable(true);
     	graphView.setShowLegend(true);
     	graphView.setLegendAlign(LegendAlign.BOTTOM); 
+    	graphView.setBackgroundColor(0x5196FF);
     	  
     	return graphView;
     }

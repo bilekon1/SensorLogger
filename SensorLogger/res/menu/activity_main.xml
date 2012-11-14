@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/about" android:orderInCategory="100" android:title="@string/about"></item>
     <item android:id="@+id/help" android:orderInCategory="110" android:title="@string/help"></item>
-   
+    <item android:id="@+id/orientation" android:orderInCategory="120" android:title="@string/orientation"></item>
     
 
 </menu>

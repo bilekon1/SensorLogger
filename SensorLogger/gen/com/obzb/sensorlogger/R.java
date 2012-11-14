@@ -24,6 +24,7 @@ public final class R {
         public static final int bStop=0x7f070003;
         public static final int help=0x7f070008;
         public static final int lGraph=0x7f070006;
+        public static final int orientation=0x7f070009;
         public static final int spSensors=0x7f070000;
         public static final int txtData=0x7f070005;
         public static final int txtInfo=0x7f070004;
@@ -36,37 +37,40 @@ public final class R {
         public static final int activity_main=0x7f060000;
     }
     public static final class string {
-        public static final int about=0x7f04000c;
+        public static final int about=0x7f04000f;
         /**  Jména senzorů 
          */
-        public static final int accel=0x7f04000e;
+        public static final int accel=0x7f040011;
         /**  GUI prvky 
          */
         public static final int app_name=0x7f040000;
-        public static final int grav=0x7f04000f;
-        public static final int gyro=0x7f040010;
-        public static final int help=0x7f04000d;
-        public static final int light=0x7f040011;
-        public static final int line=0x7f040012;
-        public static final int magn=0x7f040013;
-        public static final int maxrange=0x7f040009;
+        public static final int cancel=0x7f040008;
+        public static final int grav=0x7f040012;
+        public static final int gyro=0x7f040013;
+        public static final int help=0x7f040010;
+        public static final int light=0x7f040014;
+        public static final int line=0x7f040015;
+        public static final int magn=0x7f040016;
+        public static final int maxrange=0x7f04000c;
         public static final int menu_settings=0x7f040001;
-        public static final int mindelay=0x7f04000b;
+        public static final int mindelay=0x7f04000e;
         /**  Popisy u senzorů 
          */
-        public static final int nAccel=0x7f040018;
-        public static final int name=0x7f040006;
+        public static final int nAccel=0x7f04001b;
+        public static final int name=0x7f040009;
+        public static final int orientation=0x7f040006;
+        public static final int orientationMes=0x7f040007;
         public static final int pause=0x7f040004;
         public static final int play=0x7f040003;
-        public static final int power=0x7f040008;
-        public static final int press=0x7f040014;
-        public static final int prox=0x7f040015;
-        public static final int resolution=0x7f04000a;
-        public static final int rvec=0x7f040016;
+        public static final int power=0x7f04000b;
+        public static final int press=0x7f040017;
+        public static final int prox=0x7f040018;
+        public static final int resolution=0x7f04000d;
+        public static final int rvec=0x7f040019;
         public static final int stop=0x7f040005;
-        public static final int temp=0x7f040017;
+        public static final int temp=0x7f04001a;
         public static final int title_activity_main=0x7f040002;
-        public static final int vendor=0x7f040007;
+        public static final int vendor=0x7f04000a;
     }
     public static final class style {
         public static final int AppTheme=0x7f050000;
