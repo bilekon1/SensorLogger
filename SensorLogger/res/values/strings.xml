@@ -35,11 +35,11 @@
     <string name="humidity">Vlhkost</string>
     
 <!-- Popisy u senzorů -->    
-    <string name="nAccel">Udává vektor zrychlení ve třech osách včetně gravitačního</string>
+    <string name="nAccel">Udává vektor zrychlení ve třech osách včetně gravitačního zrychlení</string>
     <string name="vLight">Světlo</string>
     <string name="nLight">Udává intenzitu okolního světla v luxech</string>
     <string name="vProxi">Vzdálenost</string>
-    <string name="nProxi">Udává vzdálenost od senzoru v cm</string>
+    <string name="nProxi">Udává vzdálenost od senzoru v cm (nebo blízko/daleko)</string>
     <string name="nGravity">Vektor udávající směr a sílu gravitace</string>
     <string name="nGyro">Udává úhlovou rychlost rotace zařízení v radiánech za sekundu</string>
     <string name="nLinA">Udává vektor zrychlení ve třech osách, ale bez započtení gravitace</string>

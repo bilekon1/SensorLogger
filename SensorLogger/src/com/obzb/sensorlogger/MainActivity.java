@@ -40,6 +40,7 @@ public class MainActivity extends FragmentActivity {
 	ImageButton bStop;
 	
 	private int lState = 0; //stav logování, 0 vypnuto, 1 pauza, 2 bìží
+	private boolean firstrun = true; //zajištuje aby se po spuštìní neukládal log
 	
 	// tøídy pro senzory
 	public static SensorManager SMANAGER;
@@ -85,8 +86,10 @@ public class MainActivity extends FragmentActivity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int pozice, long arg3) {
 				SMANAGER.unregisterListener(slistener);
+				
 				isensor = sensors.getISensor(priSenzory.get(pozice));
 				sensor = isensor.getSensor();
+				txtInfo.setText("");
 				txtInfo.append(getString(R.string.name)+sensor.getName()+"\n");
 				txtInfo.append(getString(R.string.vendor)+sensor.getVendor()+"\n");
 				txtInfo.append(getString(R.string.power)+sensor.getPower()+" mA\n");
@@ -102,7 +105,8 @@ public class MainActivity extends FragmentActivity {
 			    lGraph.removeAllViews();  //odstraní pøípadný pøedešlý graf
 			    lGraph.addView(graph.kresliGraf(sParams, isensor.getValuesNames()));  
 				SMANAGER.registerListener(slistener, sensor, SensorManager.SENSOR_DELAY_UI);
-				
+				stop();
+				firstrun = false;
 			}
 
 			@Override
@@ -132,17 +136,24 @@ public class MainActivity extends FragmentActivity {
 	
         	@Override
         	public void onClick(View v) {
-        		lState = 0;
-        		i=0;
-        		graph.reset();
-        		lGraph.invalidate();
-        		logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());
-        		logger = new SlLogger();
+        		
+        		stop();
         	}
         });
         
         
     }
+    
+    private void stop() {
+    	i=0;
+		lState = 0;
+		graph.reset();
+		lGraph.invalidate();
+		if (!firstrun)
+			logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());
+		logger = new SlLogger();
+		txtData.setText("");
+	}
     
     private void vytvorSlistener() {
 		slistener = new SensorEventListener() {
@@ -161,10 +172,22 @@ public class MainActivity extends FragmentActivity {
 					
 					logger.addValues(logparam);
 					
-					x = event.values[0];
-					y = event.values[1];
-					z = event.values[2];
-					graph.pridejHodnotu(i, x, y, z);
+					switch (sParams){
+						case 1:
+							x = event.values[0];
+							graph.pridejHodnotu(i, x);
+							break;
+						case 2:
+							x = event.values[0];
+							y = event.values[1];
+							graph.pridejHodnotu(i, x, y);
+							break;
+						case 3:
+							x = event.values[0];
+							y = event.values[1];
+							z = event.values[2];
+							graph.pridejHodnotu(i, x, y, z);
+					}
 					
 					lGraph.invalidate();
 					i++;
