@@ -2,27 +2,14 @@ package com.obzb.sensorlogger;
 
 import java.util.ArrayList;
 
-
-import com.obzb.sensorlogger.classes.ISensor;
-import com.obzb.sensorlogger.classes.SGraph;
-import com.obzb.sensorlogger.classes.SLogger;
-import com.obzb.sensorlogger.classes.Sensors;
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.AlertDialog.Builder;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.util.SparseIntArray;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +20,11 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.obzb.sensorlogger.classes.ISensor;
+import com.obzb.sensorlogger.classes.SlGraph;
+import com.obzb.sensorlogger.classes.SlLogger;
+import com.obzb.sensorlogger.classes.Sensors;
 
 public class MainActivity extends FragmentActivity {
 	public static Context CONTEXT;
@@ -55,8 +47,9 @@ public class MainActivity extends FragmentActivity {
 	private Sensors sensors;
 	private ISensor isensor;
 	private SensorEventListener slistener;
-	private SLogger logger;
-	private SGraph graph;
+	private SlLogger logger;
+	private Float[] logparam;
+	private SlGraph graph;
 	private int sParams; //poèet parametrù od senzoru
 	private int i=0; //poèítadlo pro graf
 	
@@ -103,8 +96,9 @@ public class MainActivity extends FragmentActivity {
 				txtInfo.append(isensor.getNote());
 				
 				sParams = isensor.getValuesNames().length;
-				logger = new SLogger();
-				graph = new SGraph();
+				logparam = new Float[sParams];
+				logger = new SlLogger();
+				graph = new SlGraph();
 			    lGraph.removeAllViews();  //odstraní pøípadný pøedešlý graf
 			    lGraph.addView(graph.kresliGraf(sParams, isensor.getValuesNames()));  
 				SMANAGER.registerListener(slistener, sensor, SensorManager.SENSOR_DELAY_UI);
@@ -113,7 +107,7 @@ public class MainActivity extends FragmentActivity {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				txtInfo.setText("Nic nevybráno");
+				
 			}
 		});
         
@@ -142,7 +136,8 @@ public class MainActivity extends FragmentActivity {
         		i=0;
         		graph.reset();
         		lGraph.invalidate();
-		
+        		logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());
+        		logger = new SlLogger();
         	}
         });
         
@@ -161,9 +156,10 @@ public class MainActivity extends FragmentActivity {
 					txtData.setText("");
 					for (int j=0; j<sParams; j++){//cyklus kdy to bude postupnì apendovat øádky dle poètu parametrù
 						txtData.append(sValues[j][0]+" "+String.valueOf(event.values[j])+" "+sValues[j][1]+"\n");
+						logparam[j] = event.values[j];
 					};
 					
-					//logger.addValues(event.values[0]);
+					logger.addValues(logparam);
 					
 					x = event.values[0];
 					y = event.values[1];
@@ -224,6 +220,14 @@ public class MainActivity extends FragmentActivity {
 		if (sensors.checkSensor(11)) {
 			lSensors.add(sensors.vratJmenoSenzoru(11));
 			priSenzory.put(pozice, 11);
+			pozice++;};
+		if (sensors.checkSensor(12)) {
+			lSensors.add(sensors.vratJmenoSenzoru(12));
+			priSenzory.put(pozice, 12);
+			pozice++;};
+		if (sensors.checkSensor(7)) {
+			lSensors.add(sensors.vratJmenoSenzoru(7));
+			priSenzory.put(pozice, 7);
 			pozice++;};
 	}
     

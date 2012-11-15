@@ -48,6 +48,7 @@ public final class R {
         public static final int grav=0x7f040012;
         public static final int gyro=0x7f040013;
         public static final int help=0x7f040010;
+        public static final int humidity=0x7f04001b;
         public static final int light=0x7f040014;
         public static final int line=0x7f040015;
         public static final int magn=0x7f040016;
@@ -56,7 +57,17 @@ public final class R {
         public static final int mindelay=0x7f04000e;
         /**  Popisy u senzorů 
          */
-        public static final int nAccel=0x7f04001b;
+        public static final int nAccel=0x7f04001c;
+        public static final int nGravity=0x7f040021;
+        public static final int nGyro=0x7f040022;
+        public static final int nHumi=0x7f040029;
+        public static final int nLight=0x7f04001e;
+        public static final int nLinA=0x7f040023;
+        public static final int nMagn=0x7f040024;
+        public static final int nPress=0x7f040026;
+        public static final int nProxi=0x7f040020;
+        public static final int nRotV=0x7f040027;
+        public static final int nTemp=0x7f04002b;
         public static final int name=0x7f040009;
         public static final int orientation=0x7f040006;
         public static final int orientationMes=0x7f040007;
@@ -70,6 +81,11 @@ public final class R {
         public static final int stop=0x7f040005;
         public static final int temp=0x7f04001a;
         public static final int title_activity_main=0x7f040002;
+        public static final int vHumi=0x7f040028;
+        public static final int vLight=0x7f04001d;
+        public static final int vPress=0x7f040025;
+        public static final int vProxi=0x7f04001f;
+        public static final int vTemp=0x7f04002a;
         public static final int vendor=0x7f04000a;
     }
     public static final class style {

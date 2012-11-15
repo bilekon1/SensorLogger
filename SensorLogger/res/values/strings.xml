@@ -32,8 +32,24 @@
     <string name="prox">Proximity senzor</string>
     <string name="rvec">Rotační vektor</string>
     <string name="temp">Teplota</string>
+    <string name="humidity">Vlhkost</string>
     
 <!-- Popisy u senzorů -->    
-    <string name="nAccel">Udává zrychlení ve třech osách</string>
+    <string name="nAccel">Udává vektor zrychlení ve třech osách včetně gravitačního</string>
+    <string name="vLight">Světlo</string>
+    <string name="nLight">Udává intenzitu okolního světla v luxech</string>
+    <string name="vProxi">Vzdálenost</string>
+    <string name="nProxi">Udává vzdálenost od senzoru v cm</string>
+    <string name="nGravity">Vektor udávající směr a sílu gravitace</string>
+    <string name="nGyro">Udává úhlovou rychlost rotace zařízení v radiánech za sekundu</string>
+    <string name="nLinA">Udává vektor zrychlení ve třech osách, ale bez započtení gravitace</string>
+    <string name="nMagn">Udává magnetismus okolí ve třech osách v mikroTeslách</string>
+    <string name="vPress">Tlak</string>
+    <string name="nPress">Udává atmosferický tlak v hPa (milibarech)</string>
+    <string name="nRotV">Udává natočení zařízení v prostoru jako kombinaci osy a úhlu, odpovídá posledním třem částem kvaternionu</string>
+    <string name="vHumi">Vlhkost</string>
+    <string name="nHumi">Udává relativní okolní vlhkost v %</string>
+    <string name="vTemp">Teplota</string>
+    <string name="nTemp">Udává okolní teplotu v °C</string>
     
 </resources>

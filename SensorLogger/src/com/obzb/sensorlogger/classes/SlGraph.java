@@ -11,7 +11,7 @@ import com.jjoe64.graphview.LineGraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 import com.obzb.sensorlogger.MainActivity;
 
-public class SGraph {
+public class SlGraph {
 	private Context c;
 	private GraphViewSeries graphSer1;
 	private GraphViewSeries graphSer2;
@@ -19,7 +19,7 @@ public class SGraph {
 	private GraphViewData[] graphData;
 	private int sParams;
 	
-	public SGraph () {
+	public SlGraph () {
 		this.c = MainActivity.CONTEXT;
 		graphData = new GraphViewData[] {  
 			      new GraphViewData(0, 0)};  
