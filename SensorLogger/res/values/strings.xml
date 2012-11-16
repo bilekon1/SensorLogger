@@ -9,6 +9,8 @@
     <string name="orientation">Změnit orientaci</string>
     <string name="orientationMes">Změnou orientace dojde k restartu aplikace</string>
     <string name="cancel">Zrušit</string>
+    <string name="close">Zavřít</string>
+    <string name="exit">Ukončit</string>
     
     <string name="name">Jméno: </string>
     <string name="vendor">Výrobce: </string>
@@ -20,6 +22,10 @@
     
     <string name="about">O aplikaci</string>
     <string name="help">Nápověda</string>
+    <string name="aboutMes">Aplikace vytvořena jako semestrální projekt na SMAP\n Ondřej Bílek, FIM UHK 2012</string>
+    <string name="helpMes">Aplikace slouží k záznamu dat se senzorů. Záznam dat spustíte pomocí tlačítka Play, pozastavíte pomocí tlačítka Pauza a zrušíte a případně uložíte pomocí tlačítka Stop. Kliknutím na název senzoru s popisem můžete zobrazit podrobnější informace o senzoru.</string>
+    <string name="export">Export dat</string>
+    <string name="exportMes">Přejete si exportovat zaznamenaná data? Data budou exportována na uložiště ve formátu csv</string>
  
 <!-- Jména senzorů -->
     <string name="accel">Akcelerometr</string>

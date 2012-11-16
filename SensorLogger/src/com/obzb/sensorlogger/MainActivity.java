@@ -26,7 +26,7 @@ import com.obzb.sensorlogger.classes.SlGraph;
 import com.obzb.sensorlogger.classes.SlLogger;
 import com.obzb.sensorlogger.classes.Sensors;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements ExportFragment.ExportDialogListener {
 	public static Context CONTEXT;
 	//GUI prvky
 	TextView txtInfo;
@@ -40,7 +40,7 @@ public class MainActivity extends FragmentActivity {
 	ImageButton bStop;
 	
 	private int lState = 0; //stav logování, 0 vypnuto, 1 pauza, 2 bìží
-	private boolean firstrun = true; //zajištuje aby se po spuštìní neukládal log
+	private boolean firstrun = true;
 	
 	// tøídy pro senzory
 	public static SensorManager SMANAGER;
@@ -53,9 +53,6 @@ public class MainActivity extends FragmentActivity {
 	private SlGraph graph;
 	private int sParams; //poèet parametrù od senzoru
 	private int i=0; //poèítadlo pro graf
-	
-	//private final Handler mHandler = new Handler(); //zajištuje refresh grafu - nezajištuje
-	//private Runnable mTimer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,23 +87,22 @@ public class MainActivity extends FragmentActivity {
 				isensor = sensors.getISensor(priSenzory.get(pozice));
 				sensor = isensor.getSensor();
 				txtInfo.setText("");
-				txtInfo.append(getString(R.string.name)+sensor.getName()+"\n");
-				txtInfo.append(getString(R.string.vendor)+sensor.getVendor()+"\n");
-				txtInfo.append(getString(R.string.power)+sensor.getPower()+" mA\n");
-				txtInfo.append(getString(R.string.maxrange)+sensor.getMaximumRange()+"\n");
-				txtInfo.append(getString(R.string.resolution)+sensor.getResolution()+"\n");
-				txtInfo.append(getString(R.string.mindelay)+sensor.getMinDelay()+" ms\n");
+				txtInfo.append(sensor.getName()+"\n\n");
 				txtInfo.append(isensor.getNote());
+				
+				if (firstrun){
+					firstrun = false;
+					logger = new SlLogger();
+				} else {
+					stop();
+				}
 				
 				sParams = isensor.getValuesNames().length;
 				logparam = new Float[sParams];
-				logger = new SlLogger();
 				graph = new SlGraph();
 			    lGraph.removeAllViews();  //odstraní pøípadný pøedešlý graf
 			    lGraph.addView(graph.kresliGraf(sParams, isensor.getValuesNames()));  
 				SMANAGER.registerListener(slistener, sensor, SensorManager.SENSOR_DELAY_UI);
-				stop();
-				firstrun = false;
 			}
 
 			@Override
@@ -119,8 +115,11 @@ public class MainActivity extends FragmentActivity {
 			
 			@Override
 			public void onClick(View v) {
+				if (lState == 0) {
+					graph.reset();
+					lGraph.invalidate();
+				}
 				lState = 2;
-				
 			}
 		});
         
@@ -141,17 +140,36 @@ public class MainActivity extends FragmentActivity {
         	}
         });
         
+        txtInfo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				DialogFragment info = new InfoFragment();
+				Bundle args = new Bundle();
+				args.putString("type", sensors.vratJmenoSenzoru(sensor.getType()));
+				args.putString("name", sensor.getName());
+				args.putString("vendor", sensor.getVendor());
+				args.putFloat("power", sensor.getPower());
+				args.putFloat("maxrange", sensor.getMaximumRange());
+				args.putFloat("resolution", sensor.getResolution());
+				args.putFloat("mindelay", sensor.getMinDelay());
+				args.putString("note", isensor.getNote());
+				info.setArguments(args);
+                info.show(getSupportFragmentManager(), "info");		
+			}
+		});
+        
         
     }
     
     private void stop() {
     	i=0;
 		lState = 0;
-		graph.reset();
-		lGraph.invalidate();
-		if (!firstrun)
-			logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());
-		logger = new SlLogger();
+		if (logger.getValues().size()>=10) {
+			 DialogFragment export = new ExportFragment();
+             export.show(getSupportFragmentManager(), "export");
+		}
+		
 		txtData.setText("");
 	}
     
@@ -266,15 +284,21 @@ public class MainActivity extends FragmentActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.about:
-            	
+            	DialogFragment about = new AboutFragment();
+                about.show(getSupportFragmentManager(), "about");
                 return true;
             case R.id.help:
-               
+            	DialogFragment help = new HelpFragment();
+                help.show(getSupportFragmentManager(), "help");
                 return true;
             case R.id.orientation:
                 DialogFragment orientation = new OrientationFragment();
                 orientation.show(getSupportFragmentManager(), "orientation");
                	return true;
+            case R.id.exit:
+            	finish();
+            	return true;
+              
         }
         return false;
     }
@@ -286,5 +310,16 @@ public class MainActivity extends FragmentActivity {
     	super.onResume();
     
     }
+
+	@Override
+	public void onDialogPositiveClick(ExportFragment dialog) {
+		logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());	
+		logger = new SlLogger();
+	}
+
+	@Override
+	public void onDialogNegativeClick(ExportFragment dialog) {
+		logger = new SlLogger();
+	}
     
 }
