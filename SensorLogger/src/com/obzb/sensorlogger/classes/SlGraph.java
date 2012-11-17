@@ -22,7 +22,7 @@ public class SlGraph {
 	public SlGraph () {
 		this.c = MainActivity.CONTEXT;
 		graphData = new GraphViewData[] {  
-			      new GraphViewData(0, 0)};  
+			      new GraphViewData(1, 0)};  
 	}
 	
 	//Graf

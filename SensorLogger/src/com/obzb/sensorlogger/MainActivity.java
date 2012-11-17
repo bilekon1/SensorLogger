@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.obzb.sensorlogger.classes.ISensor;
 import com.obzb.sensorlogger.classes.SlGraph;
@@ -40,8 +41,8 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 	ImageButton bStop;
 	
 	private int lState = 0; //stav logování, 0 vypnuto, 1 pauza, 2 bìží
-	private boolean firstrun = true;
-	
+	private boolean firstrun = true; //aplikace byla teprv spuštìna, øeší vytváøení loggerü pøi spuštìní
+	private boolean firstvalue = true;; //první hodnoda logu - inicializace statistických hodnot
 	// tøídy pro senzory
 	public static SensorManager SMANAGER;
 	private Sensor sensor;
@@ -49,10 +50,13 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 	private ISensor isensor;
 	private SensorEventListener slistener;
 	private SlLogger logger;
-	private Float[] logparam;
+	private float[] logparam;
 	private SlGraph graph;
 	private int sParams; //poèet parametrù od senzoru
 	private int i=0; //poèítadlo pro graf
+	private float[] min;  //statistické údaje
+	private float[] max;
+	private float[] avg;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 				isensor = sensors.getISensor(priSenzory.get(pozice));
 				sensor = isensor.getSensor();
 				txtInfo.setText("");
+				txtData.setText("");
 				txtInfo.append(sensor.getName()+"\n\n");
 				txtInfo.append(isensor.getNote());
 				
@@ -98,7 +103,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 				}
 				
 				sParams = isensor.getValuesNames().length;
-				logparam = new Float[sParams];
+				logparam = new float[sParams];
 				graph = new SlGraph();
 			    lGraph.removeAllViews();  //odstraní pøípadný pøedešlý graf
 			    lGraph.addView(graph.kresliGraf(sParams, isensor.getValuesNames()));  
@@ -159,6 +164,31 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			}
 		});
         
+        txtData.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				DialogFragment stats = new StatsFragment();
+				Bundle args = new Bundle();
+				String[] sValues = new String[sParams];
+				String[] sUnits = new String[sParams];
+				for (int k = 0; k<sParams; k++) {
+					sValues[k] = isensor.getValuesNames()[k][0];
+				}
+				for (int k = 0; k<sParams; k++) {
+					sUnits[k] = isensor.getValuesNames()[k][1];
+				}
+				args.putStringArray("sValues", sValues);
+				args.putStringArray("sUnits", sUnits);
+				args.putFloatArray("min", min);
+				args.putFloatArray("max", max);
+				args.putFloatArray("avg", avg);
+				args.putString("note", isensor.getNote());
+				stats.setArguments(args);
+                stats.show(getSupportFragmentManager(), "stats");		
+			}
+		});
+        
         
     }
     
@@ -170,7 +200,8 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
              export.show(getSupportFragmentManager(), "export");
 		}
 		
-		txtData.setText("");
+		//txtData.setText("");
+		firstvalue = true;
 	}
     
     private void vytvorSlistener() {
@@ -178,16 +209,33 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			float x;
 			float y;
 			float z;
+			String[][] sValues;
+			
 			@Override
 			public void onSensorChanged(SensorEvent event) {
-				String[][] sValues = isensor.getValuesNames();
 				if (lState == 2){
+					i++;
+					if (firstvalue){
+						sValues = isensor.getValuesNames();
+						min =new float[sParams];
+						avg =new float[sParams];
+						max =new float[sParams];
+						for (int j=0; j<sParams; j++){//nastaví statistická pole
+							min[j] = event.values[j];
+							max[j] = event.values[j];
+							avg[j] = event.values[j];
+						};
+						firstvalue = false;
+					}
+					logparam = new float[sParams];
 					txtData.setText("");
 					for (int j=0; j<sParams; j++){//cyklus kdy to bude postupnì apendovat øádky dle poètu parametrù
 						txtData.append(sValues[j][0]+" "+String.valueOf(event.values[j])+" "+sValues[j][1]+"\n");
 						logparam[j] = event.values[j];
+						if (min[j] > event.values[j]) min[j] = event.values[j];
+						if (max[j] < event.values[j]) max[j] = event.values[j];
+						avg[j]=(avg[j]*(i-1)+event.values[j])/i;
 					};
-					
 					logger.addValues(logparam);
 					
 					switch (sParams){
@@ -208,7 +256,6 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 					}
 					
 					lGraph.invalidate();
-					i++;
 				}
 			}
 			
@@ -313,13 +360,22 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 
 	@Override
 	public void onDialogPositiveClick(ExportFragment dialog) {
-		logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());	
+		String file = logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());
+		Toast toast;
+		if (file == null) {
+			toast = Toast.makeText(this, getString(R.string.exportFail), Toast.LENGTH_LONG);
+		} else {
+			toast = Toast.makeText(this, getString(R.string.exported)+file, Toast.LENGTH_LONG);
+		}
+		toast.show();
 		logger = new SlLogger();
 	}
 
 	@Override
 	public void onDialogNegativeClick(ExportFragment dialog) {
 		logger = new SlLogger();
+		Toast toast = Toast.makeText(this, getString(R.string.cleared), Toast.LENGTH_LONG);
+		toast.show();
 	}
     
 }

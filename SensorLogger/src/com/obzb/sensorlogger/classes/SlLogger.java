@@ -11,27 +11,28 @@ import android.os.Environment;
 
 
 public class SlLogger {
-	private ArrayList<Float[]> values;
+	private ArrayList<float[]> values;
 	
 	public SlLogger (){
-		values = new ArrayList<Float[]>();
+		values = new ArrayList<float[]>();
 	}
 	
 	
-	public void addValues(Float[] a){
+	public void addValues(float[] a){
 		values.add(a);
 	}
 
 
-	public ArrayList<Float[]> getValues() {
+	public ArrayList<float[]> getValues() {
 		return values;
 	}
 	
-	public boolean export(String filename, String[][] params){ //pøidat parametry na vytvoøení záhlaví
-		boolean uspech = false;
+	public String export(String filename, String[][] params){ //pøidat parametry na vytvoøení záhlaví
+		String file;
 		try {
 			Calendar now = Calendar.getInstance();
-			File soubor = new File(Environment.getExternalStorageDirectory()+"/"+filename+"_"+now.get(Calendar.YEAR)+now.get(Calendar.MONTH)+now.get(Calendar.DAY_OF_MONTH)+"_"+now.get(Calendar.HOUR_OF_DAY)+now.get(Calendar.MINUTE)+".csv");
+			file = filename+"_"+now.get(Calendar.YEAR)+String.valueOf(now.get(Calendar.MONTH)+1)+now.get(Calendar.DAY_OF_MONTH)+"_"+now.get(Calendar.HOUR_OF_DAY)+now.get(Calendar.MINUTE)+".csv";
+			File soubor = new File(Environment.getExternalStorageDirectory()+"/"+file);
 			soubor.createNewFile();
 			BufferedWriter vystup = new BufferedWriter(new FileWriter(soubor));
 			//záhlaví
@@ -42,7 +43,7 @@ public class SlLogger {
 			vystup.append("\r\n");
 			//výpis hodnot
 			int j=0;
-			for (Float[] param:values) {
+			for (float[] param:values) {
 				vystup.append(j+";");
 				for (int i=0; i<param.length; i++){
 					vystup.append(String.valueOf(param[i])+";");
@@ -50,13 +51,13 @@ public class SlLogger {
 				vystup.append("\r\n");
 				j++;
 			}
-			uspech = true; 
 			vystup.close();
 			} catch (IOException e) {
 				e.printStackTrace();
+				file = null;
 			}
 		
-		return uspech;
+		return file;
 	}
 
 }

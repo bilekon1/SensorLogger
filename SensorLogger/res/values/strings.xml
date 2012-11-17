@@ -11,6 +11,7 @@
     <string name="cancel">Zrušit</string>
     <string name="close">Zavřít</string>
     <string name="exit">Ukončit</string>
+    <string name="stats">Statistika</string>
     
     <string name="name">Jméno: </string>
     <string name="vendor">Výrobce: </string>
@@ -23,9 +24,12 @@
     <string name="about">O aplikaci</string>
     <string name="help">Nápověda</string>
     <string name="aboutMes">Aplikace vytvořena jako semestrální projekt na SMAP\n Ondřej Bílek, FIM UHK 2012</string>
-    <string name="helpMes">Aplikace slouží k záznamu dat se senzorů. Záznam dat spustíte pomocí tlačítka Play, pozastavíte pomocí tlačítka Pauza a zrušíte a případně uložíte pomocí tlačítka Stop. Kliknutím na název senzoru s popisem můžete zobrazit podrobnější informace o senzoru.</string>
+    <string name="helpMes">Aplikace slouží k záznamu dat se senzorů. Záznam dat spustíte pomocí tlačítka Play, pozastavíte pomocí tlačítka Pauza a zrušíte a případně uložíte pomocí tlačítka Stop. Kliknutím na název senzoru s popisem můžete zobrazit podrobnější informace o senzoru. Kliknutím na pole s údaji zobrazíte dialog se statistickými informacemi.</string>
     <string name="export">Export dat</string>
     <string name="exportMes">Přejete si exportovat zaznamenaná data? Data budou exportována na uložiště ve formátu csv</string>
+    <string name="exported">Data byla uložena do uložiště jako soubor </string>
+    <string name="exportFail">Export dat selhal.</string>
+    <string name="cleared">Data byly vymazány.</string>
  
 <!-- Jména senzorů -->
     <string name="accel">Akcelerometr</string>
