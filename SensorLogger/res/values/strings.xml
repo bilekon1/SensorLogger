@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!-- GUI prvky -->
+
+    <!-- GUI prvky -->
     <string name="app_name">SensorLogger</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">SensorLogger</string>
@@ -12,15 +14,12 @@
     <string name="close">Zavřít</string>
     <string name="exit">Ukončit</string>
     <string name="stats">Statistika</string>
-    
     <string name="name">Jméno: </string>
     <string name="vendor">Výrobce: </string>
     <string name="power">Příkon: </string>
     <string name="maxrange">Dosah: </string>
     <string name="resolution">Rozlišení: </string>
-    <string name="mindelay">Zpoždění: </string>    
-    
-    
+    <string name="mindelay">Zpoždění: </string>
     <string name="about">O aplikaci</string>
     <string name="help">Nápověda</string>
     <string name="aboutMes">Aplikace vytvořena jako semestrální projekt na SMAP\n Ondřej Bílek, FIM UHK 2012</string>
@@ -30,8 +29,8 @@
     <string name="exported">Data byla uložena do uložiště jako soubor </string>
     <string name="exportFail">Export dat selhal.</string>
     <string name="cleared">Data byly vymazány.</string>
- 
-<!-- Jména senzorů -->
+
+    <!-- Jména senzorů -->
     <string name="accel">Akcelerometr</string>
     <string name="grav">Gravitační senzor</string>
     <string name="gyro">Gyroskop</string>
@@ -43,8 +42,9 @@
     <string name="rvec">Rotační vektor</string>
     <string name="temp">Teplota</string>
     <string name="humidity">Vlhkost</string>
-    
-<!-- Popisy u senzorů -->    
+    <string name="mic">Mikrofon</string>
+
+    <!-- Popisy u senzorů -->
     <string name="nAccel">Udává vektor zrychlení ve třech osách včetně gravitačního zrychlení</string>
     <string name="vLight">Světlo</string>
     <string name="nLight">Udává intenzitu okolního světla v luxech</string>
@@ -61,5 +61,7 @@
     <string name="nHumi">Udává relativní okolní vlhkost v %</string>
     <string name="vTemp">Teplota</string>
     <string name="nTemp">Udává okolní teplotu v °C</string>
-    
+    <string name="vMic">Hluk</string>
+    <string name="nMic">Měří okolní hluk v dB</string>
+
 </resources>

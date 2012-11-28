@@ -38,7 +38,7 @@ public class SlLogger {
 			//záhlaví
 			vystup.append("line;");
 			for (int i=0; i<params.length; i++){
-				vystup.append(String.valueOf(params[i][0])+";");
+				vystup.append(String.valueOf(params[i][0])+"["+String.valueOf(params[i][1])+"];");
 			}
 			vystup.append("\r\n");
 			//výpis hodnot

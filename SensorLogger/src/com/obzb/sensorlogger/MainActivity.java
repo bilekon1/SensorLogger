@@ -2,12 +2,15 @@ package com.obzb.sensorlogger;
 
 import java.util.ArrayList;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.SparseIntArray;
@@ -22,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.obzb.sensorlogger.classes.DbEngine;
 import com.obzb.sensorlogger.classes.ISensor;
 import com.obzb.sensorlogger.classes.SlGraph;
 import com.obzb.sensorlogger.classes.SlLogger;
@@ -42,7 +46,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 	
 	private int lState = 0; //stav logování, 0 vypnuto, 1 pauza, 2 bìží
 	private boolean firstrun = true; //aplikace byla teprv spuštìna, øeší vytváøení loggerü pøi spuštìní
-	private boolean firstvalue = true;; //první hodnoda logu - inicializace statistických hodnot
+	private static boolean firstvalue = true;; //první hodnoda logu - inicializace statistických hodnot
 	// tøídy pro senzory
 	public static SensorManager SMANAGER;
 	private Sensor sensor;
@@ -57,8 +61,26 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 	private float[] min;  //statistické údaje
 	private float[] max;
 	private float[] avg;
+	
+	private DbEngine dbe;
+	/* odchytává zprávy z vlákna zpracovávajícícho zvuk na dB */
+    private Handler mHandle;/* = new Handler()
+    {
+       @Override
+       public void handleMessage(Message msg)
+       {	
+    	   if (lState == 2){
+    		   loggujMic(msg.getData().getFloat("db"));
+    		   System.out.println("test1");
+			}          
+       };
+    };*/
+  
+	
+	
 
-    @Override
+    @SuppressLint("HandlerLeak")
+	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
@@ -77,6 +99,17 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
         bPause = (ImageButton) findViewById(R.id.bPause);
         bStop = (ImageButton) findViewById(R.id.bStop);
         
+        mHandle = new Handler()
+        {
+           @Override
+           public void handleMessage(Message msg)
+           {	
+        	   if (lState == 2){
+        		   loggujMic(msg.getData().getFloat("db"));
+    			}          
+           };
+        };
+        
         naplnSpinner();
         ArrayAdapter<String> arSensors = new ArrayAdapter<String>(this, R.layout.row, lSensors);
         spSensors.setAdapter(arSensors);
@@ -87,13 +120,29 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int pozice, long arg3) {
 				SMANAGER.unregisterListener(slistener);
+				try {
+					dbe.stopDb();
+				} catch (Exception e){		
+				}				
+				dbe = null;
 				
-				isensor = sensors.getISensor(priSenzory.get(pozice));
-				sensor = isensor.getSensor();
 				txtInfo.setText("");
 				txtData.setText("");
-				txtInfo.append(sensor.getName()+"\n\n");
-				txtInfo.append(isensor.getNote());
+				
+				if (priSenzory.get(pozice)!= 100) {
+					txtInfo.setClickable(true); 
+					isensor = sensors.getISensor(priSenzory.get(pozice));
+					sensor = isensor.getSensor();
+					sParams = isensor.getValuesNames().length;
+					txtInfo.append(sensor.getName()+"\n\n");
+					txtInfo.append(isensor.getNote());
+				} else {
+					txtInfo.setClickable(false); //u mikrofonu není co zobrazit
+					txtInfo.append(getString(R.string.mic)+"\n\n");
+					txtInfo.append(getString(R.string.nMic));
+				}
+
+			
 				
 				if (firstrun){
 					firstrun = false;
@@ -102,12 +151,22 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 					stop();
 				}
 				
-				sParams = isensor.getValuesNames().length;
+				
 				logparam = new float[sParams];
 				graph = new SlGraph();
 			    lGraph.removeAllViews();  //odstraní pøípadný pøedešlý graf
-			    lGraph.addView(graph.kresliGraf(sParams, isensor.getValuesNames()));  
-				SMANAGER.registerListener(slistener, sensor, SensorManager.SENSOR_DELAY_UI);
+			    if (priSenzory.get(pozice)!= 100) {
+			    	lGraph.addView(graph.kresliGraf(sParams, isensor.getValuesNames()));  
+			    	SMANAGER.registerListener(slistener, sensor, SensorManager.SENSOR_DELAY_UI);
+			    } else {
+			    	String[][] mic = new String[1][2];
+			    	mic[0][0] = getString(R.string.vMic);
+			    	mic[0][1] = "dB";
+			    	lGraph.addView(graph.kresliGraf(1, mic)); 
+			    	dbe = new DbEngine(mHandle);
+			    	dbe.start();
+			    	dbe.startDb();
+			    }
 			}
 
 			@Override
@@ -170,26 +229,60 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			public void onClick(View v) {
 				DialogFragment stats = new StatsFragment();
 				Bundle args = new Bundle();
-				String[] sValues = new String[sParams];
-				String[] sUnits = new String[sParams];
-				for (int k = 0; k<sParams; k++) {
-					sValues[k] = isensor.getValuesNames()[k][0];
+				if (dbe == null) {
+					String[] sValues = new String[sParams];
+					String[] sUnits = new String[sParams];
+					for (int k = 0; k<sParams; k++) {
+						sValues[k] = isensor.getValuesNames()[k][0];
+					}
+					for (int k = 0; k<sParams; k++) {
+						sUnits[k] = isensor.getValuesNames()[k][1];
+					}
+					args.putStringArray("sValues", sValues);
+					args.putStringArray("sUnits", sUnits);
+					args.putString("note", isensor.getNote()); 
+				} else {
+					String[] sValues = new String[1];
+					String[] sUnits = new String[1];
+					sValues[0] =  getString(R.string.vMic);
+					sUnits[0] = "dB";
+					args.putStringArray("sValues", sValues);
+					args.putStringArray("sUnits", sUnits);
+					args.putString("note", getString(R.string.nMic));
 				}
-				for (int k = 0; k<sParams; k++) {
-					sUnits[k] = isensor.getValuesNames()[k][1];
-				}
-				args.putStringArray("sValues", sValues);
-				args.putStringArray("sUnits", sUnits);
 				args.putFloatArray("min", min);
 				args.putFloatArray("max", max);
 				args.putFloatArray("avg", avg);
-				args.putString("note", isensor.getNote());
 				stats.setArguments(args);
                 stats.show(getSupportFragmentManager(), "stats");		
 			}
 		});
         
         
+    }
+   
+    private void loggujMic(float db){
+    	i++;
+		if (firstvalue){
+			min = new float [1];
+			avg =new float[1];
+			max =new float[1];
+			min[0] = db;
+			max[0] = db;
+			avg[0] = db;
+			firstvalue = false;
+		}
+		logparam = new float[1];
+		txtData.setText(CONTEXT.getString(R.string.vMic)+" "+String.valueOf(db)+" dB");
+		logparam[0] = db;
+		if (min[0] > db) min[0] = db;
+		if (max[0] < db) max[0] = db;
+		avg[0]=(avg[0]*(i-1)+db)/i;
+		
+		logger.addValues(logparam);
+		graph.pridejHodnotu(i, db);
+		
+		lGraph.invalidate();
     }
     
     private void stop() {
@@ -204,6 +297,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 		firstvalue = true;
 	}
     
+    
     private void vytvorSlistener() {
 		slistener = new SensorEventListener() {
 			float x;
@@ -212,7 +306,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			String[][] sValues;
 			
 			@Override
-			public void onSensorChanged(SensorEvent event) {
+			public void onSensorChanged(SensorEvent event) { 
 				if (lState == 2){
 					i++;
 					if (firstvalue){
@@ -267,6 +361,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 		};
 		
 	}
+    
 
 	/**
      * Plní spinner existujícími senzory a vytváøí hashmapu k identifikaci položek
@@ -317,6 +412,8 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			lSensors.add(sensors.vratJmenoSenzoru(7));
 			priSenzory.put(pozice, 7);
 			pozice++;};
+		lSensors.add(getString(R.string.mic));
+		priSenzory.put(pozice, 100);
 	}
     
 
@@ -360,12 +457,20 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 
 	@Override
 	public void onDialogPositiveClick(ExportFragment dialog) {
-		String file = logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());
+		String file;
+		if (dbe == null) {
+			file = logger.export(sensors.vratJmenoSenzoru(sensor.getType()),isensor.getValuesNames());
+		} else {
+			String[][] vn = new String[1][2];
+			vn[0][0] =  getString(R.string.vMic);
+			vn[0][1] = "dB";
+			file = logger.export(getString(R.string.mic), vn);
+		}
 		Toast toast;
 		if (file == null) {
 			toast = Toast.makeText(this, getString(R.string.exportFail), Toast.LENGTH_LONG);
 		} else {
-			toast = Toast.makeText(this, getString(R.string.exported)+file, Toast.LENGTH_LONG);
+			toast = Toast.makeText(this, getString(R.string.exported)+" "+file, Toast.LENGTH_LONG);
 		}
 		toast.show();
 		logger = new SlLogger();

@@ -18,14 +18,15 @@ public final class R {
         public static final int stop=0x7f020004;
     }
     public static final class id {
-        public static final int about=0x7f070007;
+        public static final int about=0x7f070008;
         public static final int bPause=0x7f070002;
         public static final int bPlay=0x7f070001;
         public static final int bStop=0x7f070003;
-        public static final int exit=0x7f07000a;
-        public static final int help=0x7f070008;
+        public static final int exit=0x7f07000b;
+        public static final int help=0x7f070009;
         public static final int lGraph=0x7f070006;
-        public static final int orientation=0x7f070009;
+        public static final int menu_settings=0x7f070007;
+        public static final int orientation=0x7f07000a;
         public static final int spSensors=0x7f070000;
         public static final int txtData=0x7f070005;
         public static final int txtInfo=0x7f070004;
@@ -35,7 +36,8 @@ public final class R {
         public static final int row=0x7f030001;
     }
     public static final class menu {
-        public static final int activity_main=0x7f060000;
+        public static final int activity_db_logger=0x7f060000;
+        public static final int activity_main=0x7f060001;
     }
     public static final class string {
         public static final int about=0x7f040012;
@@ -64,20 +66,22 @@ public final class R {
         public static final int magn=0x7f040020;
         public static final int maxrange=0x7f04000f;
         public static final int menu_settings=0x7f040001;
+        public static final int mic=0x7f040026;
         public static final int mindelay=0x7f040011;
         /**  Popisy u senzorů 
          */
-        public static final int nAccel=0x7f040026;
-        public static final int nGravity=0x7f04002b;
-        public static final int nGyro=0x7f04002c;
-        public static final int nHumi=0x7f040033;
-        public static final int nLight=0x7f040028;
-        public static final int nLinA=0x7f04002d;
-        public static final int nMagn=0x7f04002e;
-        public static final int nPress=0x7f040030;
-        public static final int nProxi=0x7f04002a;
-        public static final int nRotV=0x7f040031;
-        public static final int nTemp=0x7f040035;
+        public static final int nAccel=0x7f040027;
+        public static final int nGravity=0x7f04002c;
+        public static final int nGyro=0x7f04002d;
+        public static final int nHumi=0x7f040034;
+        public static final int nLight=0x7f040029;
+        public static final int nLinA=0x7f04002e;
+        public static final int nMagn=0x7f04002f;
+        public static final int nMic=0x7f040038;
+        public static final int nPress=0x7f040031;
+        public static final int nProxi=0x7f04002b;
+        public static final int nRotV=0x7f040032;
+        public static final int nTemp=0x7f040036;
         public static final int name=0x7f04000c;
         public static final int orientation=0x7f040006;
         public static final int orientationMes=0x7f040007;
@@ -92,11 +96,12 @@ public final class R {
         public static final int stop=0x7f040005;
         public static final int temp=0x7f040024;
         public static final int title_activity_main=0x7f040002;
-        public static final int vHumi=0x7f040032;
-        public static final int vLight=0x7f040027;
-        public static final int vPress=0x7f04002f;
-        public static final int vProxi=0x7f040029;
-        public static final int vTemp=0x7f040034;
+        public static final int vHumi=0x7f040033;
+        public static final int vLight=0x7f040028;
+        public static final int vMic=0x7f040037;
+        public static final int vPress=0x7f040030;
+        public static final int vProxi=0x7f04002a;
+        public static final int vTemp=0x7f040035;
         public static final int vendor=0x7f04000d;
     }
     public static final class style {
