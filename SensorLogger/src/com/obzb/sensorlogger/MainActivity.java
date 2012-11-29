@@ -45,8 +45,9 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 	ImageButton bStop;
 	
 	private int lState = 0; //stav logování, 0 vypnuto, 1 pauza, 2 bìží
-	private boolean firstrun = true; //aplikace byla teprv spuštìna, øeší vytváøení loggerü pøi spuštìní
+	private boolean firstrun = true; //aplikace byla teprv spuštìna, øeší vytváøení loggeru pøi spuštìní
 	private static boolean firstvalue = true;; //první hodnoda logu - inicializace statistických hodnot
+	
 	// tøídy pro senzory
 	public static SensorManager SMANAGER;
 	private Sensor sensor;
@@ -64,22 +65,12 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 	
 	private DbEngine dbe;
 	/* odchytává zprávy z vlákna zpracovávajícícho zvuk na dB */
-    private Handler mHandle;/* = new Handler()
-    {
-       @Override
-       public void handleMessage(Message msg)
-       {	
-    	   if (lState == 2){
-    		   loggujMic(msg.getData().getFloat("db"));
-    		   System.out.println("test1");
-			}          
-       };
-    };*/
+    private Handler mHandle;
   
 	
 	
 
-    @SuppressLint("HandlerLeak")
+    @SuppressLint("HandlerLeak")  //pøedpokládám že u mainactivity která bìží v jedné instanci by problém nastat nemìl
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,10 +111,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int pozice, long arg3) {
 				SMANAGER.unregisterListener(slistener);
-				try {
-					dbe.stopDb();
-				} catch (Exception e){		
-				}				
+				if (dbe != null) dbe.stopDb();
 				dbe = null;
 				
 				txtInfo.setText("");
@@ -140,9 +128,8 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 					txtInfo.setClickable(false); //u mikrofonu není co zobrazit
 					txtInfo.append(getString(R.string.mic)+"\n\n");
 					txtInfo.append(getString(R.string.nMic));
-				}
-
-			
+					sParams = 1;
+				}			
 				
 				if (firstrun){
 					firstrun = false;
@@ -150,9 +137,8 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 				} else {
 					stop();
 				}
-				
-				
-				logparam = new float[sParams];
+								
+				//logparam = new float[sParams];
 				graph = new SlGraph();
 			    lGraph.removeAllViews();  //odstraní pøípadný pøedešlý graf
 			    if (priSenzory.get(pozice)!= 100) {
@@ -191,15 +177,13 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			
 			@Override
 			public void onClick(View v) {
-				lState = 1;
-				
+				lState = 1;			
 			}
 		});
         bStop.setOnClickListener(new View.OnClickListener() {
 	
         	@Override
-        	public void onClick(View v) {
-        		
+        	public void onClick(View v) {       		
         		stop();
         	}
         });
@@ -272,17 +256,14 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 			avg[0] = db;
 			firstvalue = false;
 		}
-		logparam = new float[1];
+		logparam = new float[sParams];
 		txtData.setText(CONTEXT.getString(R.string.vMic)+" "+String.valueOf(db)+" dB");
 		logparam[0] = db;
 		if (min[0] > db) min[0] = db;
 		if (max[0] < db) max[0] = db;
 		avg[0]=(avg[0]*(i-1)+db)/i;
 		
-		logger.addValues(logparam);
-		graph.pridejHodnotu(i, db);
-		
-		lGraph.invalidate();
+		logAndGraph();
     }
     
     private void stop() {
@@ -300,9 +281,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
     
     private void vytvorSlistener() {
 		slistener = new SensorEventListener() {
-			float x;
-			float y;
-			float z;
+			
 			String[][] sValues;
 			
 			@Override
@@ -329,39 +308,44 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 						if (min[j] > event.values[j]) min[j] = event.values[j];
 						if (max[j] < event.values[j]) max[j] = event.values[j];
 						avg[j]=(avg[j]*(i-1)+event.values[j])/i;
-					};
-					logger.addValues(logparam);
-					
-					switch (sParams){
-						case 1:
-							x = event.values[0];
-							graph.pridejHodnotu(i, x);
-							break;
-						case 2:
-							x = event.values[0];
-							y = event.values[1];
-							graph.pridejHodnotu(i, x, y);
-							break;
-						case 3:
-							x = event.values[0];
-							y = event.values[1];
-							z = event.values[2];
-							graph.pridejHodnotu(i, x, y, z);
-					}
-					
-					lGraph.invalidate();
+					};			
+					logAndGraph();
 				}
 			}
 			
 			@Override
-			public void onAccuracyChanged(Sensor sensor, int accuracy) {
-				
-				
+			public void onAccuracyChanged(Sensor sensor, int accuracy) {		
 			}
 		};
 		
 	}
     
+    /**
+     * Zapisuje data do grafu a logu
+     */
+    private void logAndGraph() {
+		float x;
+		float y;
+		float z;
+		logger.addValues(logparam);
+		switch (sParams){
+			case 1:
+				x = logparam[0];
+				graph.pridejHodnotu(i, x);
+				break;
+			case 2:
+				x = logparam[0];
+				y = logparam[1];
+				graph.pridejHodnotu(i, x, y);
+				break;
+			case 3:
+				x = logparam[0];
+				y = logparam[1];
+				z = logparam[2];
+				graph.pridejHodnotu(i, x, y, z);
+		}		
+		lGraph.invalidate();
+	}
 
 	/**
      * Plní spinner existujícími senzory a vytváøí hashmapu k identifikaci položek
@@ -425,7 +409,6 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.about:
             	DialogFragment about = new AboutFragment();
@@ -441,8 +424,7 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
                	return true;
             case R.id.exit:
             	finish();
-            	return true;
-              
+            	return true;              
         }
         return false;
     }
@@ -452,7 +434,13 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
     @Override
     protected void onResume() {
     	super.onResume();
-    
+    	if (dbe != null){
+    		dbe = new DbEngine(mHandle);
+	    	dbe.start();
+	    	dbe.startDb();
+    	} else {
+    		SMANAGER.registerListener(slistener, sensor, SensorManager.SENSOR_DELAY_UI);
+    	}
     }
 
 	@Override
@@ -481,6 +469,17 @@ public class MainActivity extends FragmentActivity implements ExportFragment.Exp
 		logger = new SlLogger();
 		Toast toast = Toast.makeText(this, getString(R.string.cleared), Toast.LENGTH_LONG);
 		toast.show();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (dbe != null) {
+			dbe.stopDb();
+		}
+		else {
+			SMANAGER.unregisterListener(slistener);
+		}
 	}
     
 }

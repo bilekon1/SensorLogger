@@ -12,14 +12,17 @@ import android.os.Environment;
 
 public class SlLogger {
 	private ArrayList<float[]> values;
+	private ArrayList<Long> times;
 	
 	public SlLogger (){
 		values = new ArrayList<float[]>();
+		times = new ArrayList<Long>();
 	}
 	
 	
 	public void addValues(float[] a){
 		values.add(a);
+		times.add(System.currentTimeMillis());
 	}
 
 
@@ -28,6 +31,13 @@ public class SlLogger {
 	}
 	
 	public String export(String filename, String[][] params){ //pøidat parametry na vytvoøení záhlaví
+		long first = times.get(0); //reset èasu aby to šlo od 0
+		for (int l=0; l < times.size(); l++ ) {
+			long time = times.get(l);
+			time = time - first;
+			times.set(l,time);	
+		}
+		
 		String file;
 		try {
 			Calendar now = Calendar.getInstance();
@@ -36,7 +46,7 @@ public class SlLogger {
 			soubor.createNewFile();
 			BufferedWriter vystup = new BufferedWriter(new FileWriter(soubor));
 			//záhlaví
-			vystup.append("line;");
+			vystup.append("time;");
 			for (int i=0; i<params.length; i++){
 				vystup.append(String.valueOf(params[i][0])+"["+String.valueOf(params[i][1])+"];");
 			}
@@ -44,7 +54,7 @@ public class SlLogger {
 			//výpis hodnot
 			int j=0;
 			for (float[] param:values) {
-				vystup.append(j+";");
+				vystup.append(times.get(j)+";");
 				for (int i=0; i<param.length; i++){
 					vystup.append(String.valueOf(param[i])+";");
 				}

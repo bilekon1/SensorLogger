@@ -22,13 +22,14 @@
     <string name="mindelay">Zpoždění: </string>
     <string name="about">O aplikaci</string>
     <string name="help">Nápověda</string>
-    <string name="aboutMes">Aplikace vytvořena jako semestrální projekt na SMAP\n Ondřej Bílek, FIM UHK 2012</string>
-    <string name="helpMes">Aplikace slouží k záznamu dat se senzorů. Záznam dat spustíte pomocí tlačítka Play, pozastavíte pomocí tlačítka Pauza a zrušíte a případně uložíte pomocí tlačítka Stop. Kliknutím na název senzoru s popisem můžete zobrazit podrobnější informace o senzoru. Kliknutím na pole s údaji zobrazíte dialog se statistickými informacemi.</string>
+    <string name="aboutMes">Aplikace vytvořena jako semestrální projekt na předmět <b>SMAP</b>\n\n Ondřej Bílek, FIM UHK 2012</string>
+    <string name="helpMes">Aplikace slouží k záznamu dat se senzorů. \n Záznam dat spustíte pomocí tlačítka <b>Play</b>, pozastavíte pomocí tlačítka <b>Pauza</b>
+         a zrušíte a případně uložíte pomocí tlačítka <b>Stop</b>.\n Kliknutím na název senzoru s popisem můžete zobrazit podrobnější informace o senzoru. \n Kliknutím na pole s údaji zobrazíte dialog se statistickými informacemi.</string>
     <string name="export">Export dat</string>
     <string name="exportMes">Přejete si exportovat zaznamenaná data? Data budou exportována na uložiště ve formátu csv</string>
     <string name="exported">Data byla uložena do uložiště jako soubor </string>
     <string name="exportFail">Export dat selhal.</string>
-    <string name="cleared">Data byly vymazány.</string>
+    <string name="cleared">Data byla vymazána.</string>
 
     <!-- Jména senzorů -->
     <string name="accel">Akcelerometr</string>
