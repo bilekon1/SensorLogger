@@ -1,0 +1,18 @@
+SensorLogger
+Požadavky:  zaøízení s operaèním systémem Android 2.3 a vyšším
+
+Aplikace slouží k záznamu dat ze senzorù. Po spuštìní aplikace vyhledá senzory pøítomné v zaøízení, abyste nebyli obtìžování senzory, které Vaše zaøízení neobsahuje èi k nim nemá senzor pøístup.
+Zvolte si požadovaný senzor a stisknutím tlaèítka Play sledujte jeho chování v reálném èase a to jak textovì, tak graficky. Navíc si lze zobrazit i minimum, maximum a prùmìr hodnot. Zaznamenaná data lze vyexportovat do souboru csv pro další libovolné zpracování.
+Upozornìní: Systém Android reportuje data ze senzorù pouze v pøípadì, že zaznamená jejich zmìnu. To mùže zpùsobit, že napø. u proximity senzoru dochází ke zdání nefunkènosti, což je zpùsobeno tím, že se nemìní stav senzoru. 
+
+Návod:
+Záznam dat spustíte pomocí tlaèítka Play, pozastavíte pomocí tlaèítka Pause a zrušíte pomocí tlaèítka Stop.
+Pøi kliknutí na tlaèítko Stop èi pøi pøepnutí na jiný soubor se aplikace zeptá (existují-li zaznamenaná data), zda chcete zaznamenaná data uložit. V pøípadì kladné odpovìdi jsou zaznamenaná data vyexportovány na externí uložištì (typicky SD karta) ve formátu csv, kde se název skládá ze jména senzoru a data mìøení a obsah je ve formátu èas v ms od zaèátku a namìøené hodnoty.
+Kliknutím na oblast s názvem senzoru a jeho popisem mùžete zobrazit podrobnìjší informace o senzoru (spotøeba, výrobce a jiné údaje poskytované systémem Android).
+Kliknutím na oblast s údaji ze senzoru zobrazíte dialog se statistickými informacemi (minimum, maximum a prùmìr hodnot).
+
+V menu se dále nachází položka Zmìnit orientaci a Ukonèit. Zmìnit orientaci pøepne z orientace na výšku na orientaci na šíøku èi naopak. Zmìnou orientace dojde ke ztrátì dat!. Položka Ukonèit zpùsobí okamžité ukonèení aplikace bez jakýchkoli dotazù.
+
+Vyžadovaná oprávnìní:
+WRITE_EXTERNAL_STORAGE - nutno pro uložení souboru na externí uložištì
+RECORD_AUDIO - pro výpoèet Db u mikrofonu
