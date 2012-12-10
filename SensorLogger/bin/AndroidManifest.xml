@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cz.uhk.sensorlogger"
+    package="cz.uhk.fim.sensorlogger"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="cz.uhk.sensorlogger.MainActivity"
+            android:name="cz.uhk.fim.sensorlogger.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="nosensor" >
             <intent-filter>

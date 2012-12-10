@@ -1,4 +1,4 @@
-package cz.uhk.sensorlogger.classes;
+package cz.uhk.fim.sensorlogger.classes;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,7 +10,7 @@ import com.jjoe64.graphview.GraphViewSeries.GraphViewStyle;
 import com.jjoe64.graphview.LineGraphView;
 import com.jjoe64.graphview.GraphView.GraphViewData;
 
-import cz.uhk.sensorlogger.MainActivity;
+import cz.uhk.fim.sensorlogger.MainActivity;
 
 public class SlGraph {
 	private Context c;

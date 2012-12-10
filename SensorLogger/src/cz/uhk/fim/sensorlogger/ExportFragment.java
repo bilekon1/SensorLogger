@@ -1,6 +1,6 @@
-package cz.uhk.sensorlogger;
+package cz.uhk.fim.sensorlogger;
 
-import cz.uhk.sensorlogger.R;
+import cz.uhk.fim.sensorlogger.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;

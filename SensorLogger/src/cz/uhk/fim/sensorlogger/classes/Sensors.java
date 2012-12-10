@@ -1,21 +1,21 @@
-package cz.uhk.sensorlogger.classes;
+package cz.uhk.fim.sensorlogger.classes;
 
 import java.util.List;
 
-import cz.uhk.sensorlogger.R;
+import cz.uhk.fim.sensorlogger.MainActivity;
+import cz.uhk.fim.sensorlogger.classes.sensors.SAccelerometer;
+import cz.uhk.fim.sensorlogger.classes.sensors.SGravity;
+import cz.uhk.fim.sensorlogger.classes.sensors.SGyroscope;
+import cz.uhk.fim.sensorlogger.classes.sensors.SLight;
+import cz.uhk.fim.sensorlogger.classes.sensors.SLinearAcceleration;
+import cz.uhk.fim.sensorlogger.classes.sensors.SMagneticField;
+import cz.uhk.fim.sensorlogger.classes.sensors.SPressure;
+import cz.uhk.fim.sensorlogger.classes.sensors.SProximity;
+import cz.uhk.fim.sensorlogger.classes.sensors.SRelativeHumidity;
+import cz.uhk.fim.sensorlogger.classes.sensors.SRotationVector;
+import cz.uhk.fim.sensorlogger.classes.sensors.STemperature;
+import cz.uhk.fim.sensorlogger.R;
 
-import cz.uhk.sensorlogger.MainActivity;
-import cz.uhk.sensorlogger.classes.sensors.SAccelerometer;
-import cz.uhk.sensorlogger.classes.sensors.SGravity;
-import cz.uhk.sensorlogger.classes.sensors.SGyroscope;
-import cz.uhk.sensorlogger.classes.sensors.SLight;
-import cz.uhk.sensorlogger.classes.sensors.SLinearAcceleration;
-import cz.uhk.sensorlogger.classes.sensors.SMagneticField;
-import cz.uhk.sensorlogger.classes.sensors.SPressure;
-import cz.uhk.sensorlogger.classes.sensors.SProximity;
-import cz.uhk.sensorlogger.classes.sensors.SRelativeHumidity;
-import cz.uhk.sensorlogger.classes.sensors.SRotationVector;
-import cz.uhk.sensorlogger.classes.sensors.STemperature;
 
 import android.content.Context;
 import android.hardware.Sensor;

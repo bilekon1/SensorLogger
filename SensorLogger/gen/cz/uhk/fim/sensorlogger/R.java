@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package cz.uhk.sensorlogger;
+package cz.uhk.fim.sensorlogger;
 
 public final class R {
     public static final class attr {

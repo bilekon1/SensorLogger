@@ -1,4 +1,4 @@
-package cz.uhk.sensorlogger;
+package cz.uhk.fim.sensorlogger;
 
 import java.util.ArrayList;
 
@@ -25,13 +25,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import cz.uhk.sensorlogger.R;
+import cz.uhk.fim.sensorlogger.classes.DbEngine;
+import cz.uhk.fim.sensorlogger.classes.ISensor;
+import cz.uhk.fim.sensorlogger.classes.Sensors;
+import cz.uhk.fim.sensorlogger.classes.SlGraph;
+import cz.uhk.fim.sensorlogger.classes.SlLogger;
+import cz.uhk.fim.sensorlogger.R;
 
-import cz.uhk.sensorlogger.classes.DbEngine;
-import cz.uhk.sensorlogger.classes.ISensor;
-import cz.uhk.sensorlogger.classes.Sensors;
-import cz.uhk.sensorlogger.classes.SlGraph;
-import cz.uhk.sensorlogger.classes.SlLogger;
 
 public class MainActivity extends FragmentActivity implements ExportFragment.ExportDialogListener {
 	public static Context CONTEXT;

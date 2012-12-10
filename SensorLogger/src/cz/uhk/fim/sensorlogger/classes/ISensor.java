@@ -1,4 +1,4 @@
-package cz.uhk.sensorlogger.classes;
+package cz.uhk.fim.sensorlogger.classes;
 
 import android.hardware.Sensor;
 

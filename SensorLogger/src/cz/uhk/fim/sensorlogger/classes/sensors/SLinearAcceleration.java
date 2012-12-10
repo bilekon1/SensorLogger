@@ -1,13 +1,13 @@
-package cz.uhk.sensorlogger.classes.sensors;
+package cz.uhk.fim.sensorlogger.classes.sensors;
 
-import cz.uhk.sensorlogger.R;
+import cz.uhk.fim.sensorlogger.MainActivity;
+import cz.uhk.fim.sensorlogger.classes.ISensor;
+import cz.uhk.fim.sensorlogger.R;
 
-import cz.uhk.sensorlogger.MainActivity;
-import cz.uhk.sensorlogger.classes.ISensor;
 
 import android.hardware.Sensor;
 
-public class SAccelerometer implements ISensor {
+public class SLinearAcceleration implements ISensor {
 	private Sensor s;
 	
 	/**
@@ -15,8 +15,8 @@ public class SAccelerometer implements ISensor {
 	 * @param m SensorManager používaný v aplikaci
 	 * @param c Kontext aplikace
 	 */
-	public SAccelerometer (){
-		this.s = MainActivity.SMANAGER.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+	public SLinearAcceleration (){
+		this.s = MainActivity.SMANAGER.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
 	};
 
 	@Override
@@ -38,7 +38,7 @@ public class SAccelerometer implements ISensor {
 
 	@Override
 	public String getNote() {
-		return MainActivity.CONTEXT.getString(R.string.nAccel);
+		return MainActivity.CONTEXT.getString(R.string.nLinA);
 	}
 
 }

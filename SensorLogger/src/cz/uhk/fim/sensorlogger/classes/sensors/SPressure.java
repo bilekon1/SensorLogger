@@ -1,9 +1,9 @@
-package cz.uhk.sensorlogger.classes.sensors;
+package cz.uhk.fim.sensorlogger.classes.sensors;
 
-import cz.uhk.sensorlogger.R;
+import cz.uhk.fim.sensorlogger.MainActivity;
+import cz.uhk.fim.sensorlogger.classes.ISensor;
+import cz.uhk.fim.sensorlogger.R;
 
-import cz.uhk.sensorlogger.MainActivity;
-import cz.uhk.sensorlogger.classes.ISensor;
 
 import android.hardware.Sensor;
 
