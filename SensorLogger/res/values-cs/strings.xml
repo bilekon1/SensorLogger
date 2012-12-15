@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- GUI prvky -->
+    <string name="app_name">SensorLogger</string>
+    <string name="menu_settings">Nastavení</string>
+    <string name="title_activity_main">SensorLogger</string>
+    <string name="play">Spustit</string>
+    <string name="pause">Pozastavit</string>
+    <string name="stop">Zastavit</string>
+    <string name="orientation">Změnit orientaci</string>
+    <string name="orientationMes">Změnou orientace dojde k restartu aplikace</string>
+    <string name="cancel">Zrušit</string>
+    <string name="close">Zavřít</string>
+    <string name="exit">Ukončit</string>
+    <string name="stats">Statistika</string>
+    <string name="name">Jméno: </string>
+    <string name="vendor">Výrobce: </string>
+    <string name="power">Příkon: </string>
+    <string name="maxrange">Dosah: </string>
+    <string name="resolution">Rozlišení: </string>
+    <string name="mindelay">Zpoždění: </string>
+    <string name="about">O aplikaci</string>
+    <string name="help">Nápověda</string>
+    <string name="aboutMes">Aplikace vytvořena jako semestrální projekt na předmět <b>SMAP</b>\n\n Ondřej Bílek, FIM UHK 2012</string>
+    <string name="helpMes">Aplikace slouží k záznamu dat se senzorů. \n Záznam dat spustíte pomocí tlačítka <b>Play</b>, pozastavíte pomocí tlačítka <b>Pauza</b>
+         a zrušíte a případně uložíte pomocí tlačítka <b>Stop</b>.\n Kliknutím na název senzoru s popisem můžete zobrazit podrobnější informace o senzoru. \n Kliknutím na pole s údaji zobrazíte dialog se statistickými informacemi.\n
+         Graf lze posunovat či měnit jeho měřítko.</string>
+    <string name="export">Export dat</string>
+    <string name="exportMes">Přejete si exportovat zaznamenaná data? Data budou exportována na uložiště ve formátu csv</string>
+    <string name="exported">Data byla uložena do uložiště jako soubor </string>
+    <string name="exportFail">Export dat selhal.</string>
+    <string name="cleared">Data byla vymazána.</string>
+
+    <!-- Jména senzorů -->
+    <string name="accel">Akcelerometr</string>
+    <string name="grav">Gravitační senzor</string>
+    <string name="gyro">Gyroskop</string>
+    <string name="light">Světelný senzor</string>
+    <string name="line">Lineární zrychlení</string>
+    <string name="magn">Magnetické pole</string>
+    <string name="press">Tlakový senzor</string>
+    <string name="prox">Proximity senzor</string>
+    <string name="rvec">Rotační vektor</string>
+    <string name="temp">Teplota</string>
+    <string name="humidity">Vlhkost</string>
+    <string name="mic">Mikrofon</string>
+
+    <!-- Popisy u senzorů -->
+    <string name="nAccel">Udává vektor zrychlení ve třech osách včetně gravitačního zrychlení</string>
+    <string name="vLight">Světlo</string>
+    <string name="nLight">Udává intenzitu okolního světla v luxech</string>
+    <string name="vProxi">Vzdálenost</string>
+    <string name="nProxi">Udává vzdálenost od senzoru v cm (nebo blízko/daleko)</string>
+    <string name="nGravity">Vektor udávající směr a sílu gravitace</string>
+    <string name="nGyro">Udává úhlovou rychlost rotace zařízení v radiánech za sekundu</string>
+    <string name="nLinA">Udává vektor zrychlení ve třech osách, ale bez započtení gravitace</string>
+    <string name="nMagn">Udává magnetismus okolí ve třech osách v mikroTeslách</string>
+    <string name="vPress">Tlak</string>
+    <string name="nPress">Udává atmosferický tlak v hPa (milibarech)</string>
+    <string name="nRotV">Udává natočení zařízení v prostoru jako kombinaci osy a úhlu, odpovídá posledním třem částem kvaternionu</string>
+    <string name="vHumi">Vlhkost</string>
+    <string name="nHumi">Udává relativní okolní vlhkost v %</string>
+    <string name="vTemp">Teplota</string>
+    <string name="nTemp">Udává okolní teplotu v °C</string>
+    <string name="vMic">Hluk</string>
+    <string name="nMic">Měří okolní hluk v dB</string>
+
+</resources>

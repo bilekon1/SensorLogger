@@ -43,9 +43,11 @@ public final class R {
         public static final int about=0x7f040012;
         public static final int aboutMes=0x7f040014;
         /**  Jména senzorů 
+ Jména senzorů 
          */
         public static final int accel=0x7f04001b;
         /**  GUI prvky 
+ GUI prvky 
          */
         public static final int app_name=0x7f040000;
         public static final int cancel=0x7f040008;
@@ -69,6 +71,7 @@ public final class R {
         public static final int mic=0x7f040026;
         public static final int mindelay=0x7f040011;
         /**  Popisy u senzorů 
+ Popisy u senzorů 
          */
         public static final int nAccel=0x7f040027;
         public static final int nGravity=0x7f04002c;
